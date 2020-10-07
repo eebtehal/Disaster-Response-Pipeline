@@ -26,5 +26,5 @@ A machine learning pipeline to categorize emergency messages based on the needs 
 3. Go to http://0.0.0.0:3001/
 
 ### Acknowledgements
-* [https://www.udacity.com/][Udacity] for providing such a complete Data Science Nanodegree Program
-* [Figure Eight] [https://appen.com/] for providing messages dataset to train my model
+* [Udacity](https://appen.com/) for providing such a complete Data Science Nanodegree Program
+* [Figure Eight](https://appen.com/) for providing messages dataset to train my model
