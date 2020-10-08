@@ -67,17 +67,14 @@ def tokenize(text):
     '''
       # normalize
     text = re.sub(r'[^A-Za-z0-9]+', ' ', text)
-    text = text.lower()
     
       # Tokenize Sentence
     tokens = word_tokenize(text)
     
-      # remove stop words
-    tokens = [t for t in tokens if stopwords.words('english')]
-    tokens = [PorterStemmer().stem(w) for w in tokens]
-    
-      # initiate Lemmatizer
-    clean_tokens = [WordNetLemmatizer().lemmatize(w) for w in tokens]
+    # lematization
+    lemmatizer = WordNetLemmatizer()
+    clean_tokens = [lemmatizer.lemmatize(token, 'n').lower().strip() for token in tokens]
+    clean_tokens = [lemmatizer.lemmatize(token, 'v').lower().strip() for token in tokens]
     
     return clean_tokens
 
@@ -97,18 +94,6 @@ def build_model():
          ('clf', MultiOutputClassifier(RandomForestClassifier(), n_jobs=-1))#create the Classifier object
     ])
     
-    #parameters identified from GridCV search.
-    '''
-    parameters = {
-         'clf__estimator__estimator__C': [1],
-        'tfidf__use_idf': [False],
-        'vectorizer__max_df': [0.8],
-        'vectorizer__ngram_range':(1, 1)
-    }
-
-    CV = GridSearchCV(pipeline, param_grid=parameters,cv=5, verbose=3)
-    return CV
-    '''
     return pipeline
 
 
