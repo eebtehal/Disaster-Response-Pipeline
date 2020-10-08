@@ -52,7 +52,8 @@ def index():
     category_counts=df.iloc[:,4:].sum()
     category_names = list(df.columns[4:])
     category_maps=df.iloc[:,4:].corr().values
-    
+    related_split = df.groupby('related').count()['message']
+    related_names = list(related_split.index)
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
