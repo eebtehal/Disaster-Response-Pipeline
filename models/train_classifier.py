@@ -89,12 +89,24 @@ def build_model():
     '''
     
     pipeline = Pipeline([
-        ('vectorizer', CountVectorizer(tokenizer=tokenize)),  #create the CountVectorizer object
-        ('tfidf', TfidfTransformer()),  #create Tfidftransformer object    
-         ('clf', MultiOutputClassifier(RandomForestClassifier(), n_jobs=-1))#create the Classifier object
+        ('vectorizer', CountVectorizer(tokenizer=tokenize)), #create the CountVectorizer object
+        ('tfidf', TfidfTransformer()), #create Tfidftransformer object    
+        ('clf', MultiOutputClassifier(OneVsRestClassifier(LinearSVC()))) #create the Classifier object
     ])
+
+    #parameters identified from GridCV search. To save processing time, only the optimium parameters are used. 
+    parameters = {   
+        'clf__estimator__estimator__C': [1],
+        'tfidf__use_idf': [False],
+        'vectorizer__max_df': [0.8],
+        'vectorizer__ngram_range':(1, 1)
+    }
+
+    parameters={}
+    #create a grid searchCV for clarity of code
     
-    return pipeline
+    cv = GridSearchCV(pipeline, param_grid=parameters, cv=5,verbose=3)
+    return cv
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
